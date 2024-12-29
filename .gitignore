@@ -1,0 +1,46 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Directorios y archivos de configuración de Entornos
+.env
+
+# Archivos de compilación
+dist/
+build/
+
+# Archivos temporales y de caché
+*.swp
+*.swo
+*.bak
+*.tmp
+*.temp
+
+# Archivos de la base de datos
+*.sqlite
+*.db
+*.sql
+*.sqlite3
+
+# Directorios de los frameworks o herramientas
+coverage/
+.sequelize
+
+# Archivos de Cloudinary o archivos de imágenes subidos
+uploads/
+
+# Archivos de test
+test/
+tests/
+
+# Archivos específicos de IDEs y editores de texto
+.vscode/
+.idea/
+
+# Archivos generados por npm
+package-lock.json
+npm-shrinkwrap.json
