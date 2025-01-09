@@ -1,5 +1,8 @@
 const OrderRepository = require('../reposiroties/order.repository');
 const Order_productRepository = require('../reposiroties/order_product.repository')
+const { sequelize } = require('../../models/index');
+const order_productRepository = require('../reposiroties/order_product.repository');
+const orderDto = require('../dtos/order.dto')
 
 class OrderService {
   async getAllOrders() {
@@ -11,7 +14,8 @@ class OrderService {
     if (!order) {
       throw new Error('Order not found');
     }
-    return order;
+    const orders_products = await order_productRepository.findAllByOrder(id)
+    return new orderDto(order, orders_products);
   }
 
   async createOrder(data) {
@@ -29,12 +33,14 @@ class OrderService {
       const newOrder = await OrderRepository.create(order, { transaction });
 
       // Relacionar productos con el pedido
-      const productRelations = data.products.map(product => ({
-        product_id: product,
-        order_id: newOrder.id,
-      }));
-      await Order_productRepository.bulkCreate(productRelations, { transaction });
+      data.products.forEach( async product => {
+        let product_order = {
+          product_id: product,
+          order_id: newOrder.id,
+        }
+        await Order_productRepository.create( product_order, { transaction });
 
+      });
       // Confirmar la transacción
       await transaction.commit();
       return newOrder;

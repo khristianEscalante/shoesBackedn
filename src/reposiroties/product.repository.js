@@ -1,12 +1,28 @@
-const { Product } = require('../../models');
+const { Product, Category } = require('../../models');
 
 class ProductRepository {
   async findAll() {
-    return await Product.findAll();
+    return await Product.findAll({
+      include: [
+        {
+          model: Category, 
+          as: 'category', 
+          attributes: ['id','name']
+        }
+      ],
+    });
   }
 
   async findById(id) {
-    return await Product.findByPk(id);
+    return await Product.findByPk(id,{
+      include: [
+        {
+          model: Category, 
+          as: 'category', 
+          attributes: ['id','name']
+        }
+      ],
+    });
   }
 
   async create(ProductData) {

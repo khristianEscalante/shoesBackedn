@@ -21,6 +21,7 @@ class CategoryController {
 
   async create(req, res) {
     try {
+      console.log(req.body);
       const Category = await CategoryService.createCategory(req.body);
       res.status(201).json(Category);
     } catch (error) {

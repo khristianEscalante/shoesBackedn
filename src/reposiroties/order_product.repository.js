@@ -14,13 +14,8 @@ class Order_productRepository {
         {
           model: Product, // Incluye el modelo de Producto
           as: 'product', // Alias que definimos en la relación
-          attributes: ['name', 'image', 'description'], // Los atributos que quieres de Product
-        },
-        {
-          model: Order, // Incluye la tabla de la orden
-          as: 'order', // Alias para acceder a los datos de la orden
-          attributes: ['code', 'total'], // Los atributos que quieres de la orden
-        },
+          attributes: ['id','name', 'image', 'description'], // Los atributos que quieres de Product
+        }
       ],
     });
   }
