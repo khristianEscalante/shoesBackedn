@@ -30,11 +30,21 @@ Antes de empezar, asegúrate de tener instalados los siguientes componentes:
 
 3. Crea un archivo `.env` en la raíz del proyecto y configura tus variables de entorno:
    ```env
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=nombre_de_tu_base_de_datos
-   DB_USER=tu_usuario
-   DB_PASSWORD=tu_contraseña
+  DATA_BASE_NAME= shoes-ya
+DATA_BASE_PASSWORD=123
+DATA_BASE_USER= posgrest
+DATA_BASE_HOST= 127.0.0.1
+
+#estado del proyecto
+NODE_ENV = development
+
+#Configuracion de cloudinary
+CLOUDINARY_CLOUD_NAME=dejemplo
+CLOUDINARY_API_KEY=6ejemplo
+CLOUDINARY_API_SECRET=ejemplo
+
+
+JWT_SECRET=tu_secreto
    ```
 
 4. Configura Sequelize CLI:
