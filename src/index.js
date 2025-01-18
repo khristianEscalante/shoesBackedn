@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const swaggerDocs = require('../config/swagger');
 
 require('dotenv').config();
@@ -13,6 +14,7 @@ const contactRoutes = require('./routes/contact.router');
 //configuracion app
 const app = express();
 
+app.use(cors());
 app.use(express.json())
 
 app.use('/api/users', userRoutes)
