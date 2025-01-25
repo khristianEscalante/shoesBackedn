@@ -1,5 +1,5 @@
-const express = require('express');
-const CategoryController = require('../controllers/category.controller');
+const express = require("express");
+const CategoryController = require("../controllers/category.controller");
 
 const router = express.Router();
 
@@ -7,32 +7,42 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: categories
- *   description: API para gestionar usuarios
+ *   description: API para gestionar categorías
  */
 
 /**
  * @swagger
  * /api/categories:
  *   get:
- *     summary: Obtener todos los usuarios
+ *     summary: Obtener todas las categorías
  *     tags: [categories]
  *     responses:
  *       200:
- *         description: Lista de usuarios
+ *         description: Lista de categorías
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/category'
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: Nombre de la categoría
+ *                   description:
+ *                     type: string
+ *                     description: Descripción de la categoría
+ *                 example:
+ *                   name: "Electrónica"
+ *                   description: "Productos electrónicos y gadgets"
  */
-router.get('/', CategoryController.getAll);
+router.get("/", CategoryController.getAll);
 
 /**
  * @swagger
  * /api/categories/{id}:
  *   get:
- *     summary: Obtener un usuario por ID
+ *     summary: Obtener una categoría por ID
  *     tags: [categories]
  *     parameters:
  *       - in: path
@@ -40,48 +50,80 @@ router.get('/', CategoryController.getAll);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID de la categoría
  *     responses:
  *       200:
- *         description: Detalles del usuario
+ *         description: Detalles de la categoría
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/category'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   description: Nombre de la categoría
+ *                 description:
+ *                   type: string
+ *                   description: Descripción de la categoría
+ *               example:
+ *                 name: "Electrónica"
+ *                 description: "Productos electrónicos y gadgets"
  *       404:
- *         description: Usuario no encontrado
+ *         description: Categoría no encontrada
  */
-router.get('/:id', CategoryController.getById);
+router.get("/:id", CategoryController.getById);
 
 /**
  * @swagger
  * /api/categories:
  *   post:
- *     summary: Crear un nuevo usuario
+ *     summary: Crear una nueva categoría
  *     tags: [categories]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/categoryInput'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre de la categoría
+ *               description:
+ *                 type: string
+ *                 description: Descripción de la categoría
+ *             required:
+ *               - name
+ *             example:
+ *               name: "Electrónica"
+ *               description: "Productos electrónicos y gadgets"
  *     responses:
  *       201:
- *         description: Usuario creado exitosamente
+ *         description: Categoría creada exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/category'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   description: Nombre de la categoría
+ *                 description:
+ *                   type: string
+ *                   description: Descripción de la categoría
+ *               example:
+ *                 name: "Electrónica"
+ *                 description: "Productos electrónicos y gadgets"
  *       400:
  *         description: Datos inválidos
  */
-router.post('/', CategoryController.create);
+router.post("/", CategoryController.create);
 
 /**
  * @swagger
  * /api/categories/{id}:
  *   put:
- *     summary: Actualizar un usuario existente
+ *     summary: Actualizar una categoría existente
  *     tags: [categories]
  *     parameters:
  *       - in: path
@@ -89,32 +131,54 @@ router.post('/', CategoryController.create);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID de la categoría
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/categoryInput'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre de la categoría
+ *               description:
+ *                 type: string
+ *                 description: Descripción de la categoría
+ *             required:
+ *               - name
+ *             example:
+ *               name: "Electrónica"
+ *               description: "Productos electrónicos y gadgets"
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Categoría actualizada exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/category'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   description: Nombre de la categoría
+ *                 description:
+ *                   type: string
+ *                   description: Descripción de la categoría
+ *               example:
+ *                 name: "Electrónica"
+ *                 description: "Productos electrónicos y gadgets"
  *       404:
- *         description: Usuario no encontrado
+ *         description: Categoría no encontrada
  *       400:
  *         description: Datos inválidos
  */
-router.put('/:id', CategoryController.update);
+router.put("/:id", CategoryController.update);
 
 /**
  * @swagger
  * /api/categories/{id}:
  *   delete:
- *     summary: Eliminar un usuario
+ *     summary: Eliminar una categoría
  *     tags: [categories]
  *     parameters:
  *       - in: path
@@ -122,13 +186,13 @@ router.put('/:id', CategoryController.update);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID de la categoría
  *     responses:
  *       204:
- *         description: Usuario eliminado exitosamente
+ *         description: Categoría eliminada exitosamente
  *       404:
- *         description: Usuario no encontrado
+ *         description: Categoría no encontrada
  */
-router.delete('/:id', CategoryController.delete);
+router.delete("/:id", CategoryController.delete);
 
 module.exports = router;

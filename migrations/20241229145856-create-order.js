@@ -10,10 +10,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       code: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       total: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false 
+      },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      paymentMethod: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

@@ -1,5 +1,5 @@
-const express = require('express');
-const OrderController = require('../controllers/order.controller');
+const express = require("express");
+const OrderController = require("../controllers/order.controller");
 
 const router = express.Router();
 
@@ -7,32 +7,70 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: orders
- *   description: API para gestionar usuarios
+ *   description: API para gestionar órdenes
  */
 
 /**
  * @swagger
  * /api/orders:
  *   get:
- *     summary: Obtener todos los usuarios
+ *     summary: Obtener todas las órdenes
  *     tags: [orders]
  *     responses:
  *       200:
- *         description: Lista de usuarios
+ *         description: Lista de órdenes
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/order'
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 2
+ *                   code:
+ *                     type: string
+ *                     example: "shoes-1"
+ *                   total:
+ *                     type: number
+ *                     example: 70000
+ *                   status:
+ *                     type: string
+ *                     example: "completed"
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-01-01T12:00:00Z"
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-01-02T12:00:00Z"
+ *                   products:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           example: 1
+ *                         name:
+ *                           type: string
+ *                           example: "zapatos nike"
+ *                         image:
+ *                           type: string
+ *                           example: "https://ejemplo.com/image.jpg"
+ *                         description:
+ *                           type: string
+ *                           example: "Estos zapatos son de alta calidad"
  */
-router.get('/', OrderController.getAll);
+router.get("/", OrderController.getAll);
 
 /**
  * @swagger
  * /api/orders/{id}:
  *   get:
- *     summary: Obtener un usuario por ID
+ *     summary: Obtener una orden por ID
  *     tags: [orders]
  *     parameters:
  *       - in: path
@@ -40,48 +78,98 @@ router.get('/', OrderController.getAll);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID de la orden
  *     responses:
  *       200:
- *         description: Detalles del usuario
+ *         description: Detalles de la orden
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/order'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 2
+ *                 code:
+ *                   type: string
+ *                   example: "shoes-1"
+ *                 total:
+ *                   type: number
+ *                   example: 70000
+ *                 status:
+ *                   type: string
+ *                   example: "completed"
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-01-01T12:00:00Z"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-01-02T12:00:00Z"
+ *                 products:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         example: "zapatos nike"
+ *                       image:
+ *                         type: string
+ *                         example: "https://ejemplo.com/image.jpg"
+ *                       description:
+ *                         type: string
+ *                         example: "Estos zapatos son de alta calidad"
  *       404:
- *         description: Usuario no encontrado
+ *         description: Orden no encontrada
  */
-router.get('/:id', OrderController.getById);
+router.get("/:id", OrderController.getById);
 
 /**
  * @swagger
  * /api/orders:
  *   post:
- *     summary: Crear un nuevo usuario
+ *     summary: Crear una nueva orden
  *     tags: [orders]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/orderInput'
- *     responses:
- *       201:
- *         description: Usuario creado exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/order'
- *       400:
- *         description: Datos inválidos
+ *             type: object
+ *             properties:
+ *               total:
+ *                 type: number
+ *                 example: 80000
+ *               name:
+ *                 type: string
+ *                 example: "Comprador ejemplo"
+ *               address:
+ *                 type: string
+ *                 example: "Direccion ejemplo"
+ *               phone:
+ *                 type: string
+ *                 example: "3222222222"
+ *               paymentMethod:
+ *                 type: string
+ *                 example: "Transferencia"
+ *               products:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2]
  */
-router.post('/', OrderController.create);
+router.post("/", OrderController.create);
 
 /**
  * @swagger
  * /api/orders/{id}:
  *   put:
- *     summary: Actualizar un usuario existente
+ *     summary: Actualizar una orden existente
  *     tags: [orders]
  *     parameters:
  *       - in: path
@@ -89,32 +177,61 @@ router.post('/', OrderController.create);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID de la orden
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/orderInput'
+ *             type: object
+ *             properties:
+ *               total:
+ *                 type: number
+ *                 example: 80000
+ *               status:
+ *                 type: string
+ *                 example: "completed"
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Orden actualizada exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/order'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 2
+ *                 code:
+ *                   type: string
+ *                   example: "shoes-1"
+ *                 total:
+ *                   type: number
+ *                   example: 80000
+ *                 name:
+ *                   type: string
+ *                   example: "Comprador ejemplo"
+ *                 address:
+ *                   type: string
+ *                   example: "Direccion ejemplo"
+ *                 phone:
+ *                   type: string
+ *                   example: "3222222222"
+ *                 paymentMethod:
+ *                   type: string
+ *                   example: "Transferencia"
  *       404:
- *         description: Usuario no encontrado
+ *         description: Orden no encontrada
  *       400:
  *         description: Datos inválidos
  */
-router.put('/:id', OrderController.update);
+router.put("/:id", OrderController.update);
 
 /**
  * @swagger
  * /api/orders/{id}:
  *   delete:
- *     summary: Eliminar un usuario
+ *     summary: Eliminar una orden
  *     tags: [orders]
  *     parameters:
  *       - in: path
@@ -122,13 +239,13 @@ router.put('/:id', OrderController.update);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID de la orden
  *     responses:
  *       204:
- *         description: Usuario eliminado exitosamente
+ *         description: Orden eliminada exitosamente
  *       404:
- *         description: Usuario no encontrado
+ *         description: Orden no encontrada
  */
-router.delete('/:id', OrderController.delete);
+router.delete("/:id", OrderController.delete);
 
 module.exports = router;

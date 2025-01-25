@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
   Order.init({
     code: DataTypes.STRING,
     total: DataTypes.NUMBER,
+    name: DataTypes.STRING,
+    phone: DataTypes.STRING,
+    address: DataTypes.STRING,
+    paymentMethod: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Order',

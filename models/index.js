@@ -6,14 +6,43 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
+// Configuración de la base de datos a partir de variables de entorno
+const config = {
+  database: process.env.DATA_BASE_NAME,
+  username: process.env.DATA_BASE_USER,
+  password: process.env.DATA_BASE_PASSWORD,
+  host: process.env.DATA_BASE_HOST,
+  port: process.env.DATA_BASE_PORT, 
+  dialect: 'postgres', 
+};
+
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (process.env.DB_URL) {
+  // Si se proporciona una URL de conexión, se utiliza
+  sequelize = new Sequelize(process.env.DB_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // Permite certificados autofirmados o no verificados
+      },
+    },
+  });
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  // De lo contrario, se utiliza la configuración desglosada
+  sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: config.host,
+    port: config.port, // Agrega el puerto aquí
+    dialect: config.dialect,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    }
+  });
 }
 
 fs

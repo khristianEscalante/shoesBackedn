@@ -8,24 +8,35 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: products
- *   description: API para gestionar usuarios
+ *   description: API para gestionar productos
  */
 
 /**
  * @swagger
  * /api/products:
  *   get:
- *     summary: Obtener todos los usuarios
+ *     summary: Obtener todos los productos
  *     tags: [products]
  *     responses:
  *       200:
- *         description: Lista de usuarios
+ *         description: Lista de productos
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/product'
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   pricing:
+ *                     type: number
+ *                   category_id:
+ *                     type: number
+ *                   image:
+ *                     type: string
  */
 router.get('/', ProductController.getAll);
 
@@ -33,7 +44,7 @@ router.get('/', ProductController.getAll);
  * @swagger
  * /api/products/{id}:
  *   get:
- *     summary: Obtener un usuario por ID
+ *     summary: Obtener un producto por ID
  *     tags: [products]
  *     parameters:
  *       - in: path
@@ -41,16 +52,27 @@ router.get('/', ProductController.getAll);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID del producto
  *     responses:
  *       200:
- *         description: Detalles del usuario
+ *         description: Detalles del producto
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/product'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 pricing:
+ *                   type: number
+ *                 category_id:
+ *                   type: number
+ *                 image:
+ *                   type: string
  *       404:
- *         description: Usuario no encontrado
+ *         description: Producto no encontrado
  */
 router.get('/:id', ProductController.getById);
 
@@ -58,31 +80,53 @@ router.get('/:id', ProductController.getById);
  * @swagger
  * /api/products:
  *   post:
- *     summary: Crear un nuevo usuario
+ *     summary: Crear un nuevo producto, la informacion se debe enviar en un forma data
  *     tags: [products]
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *           multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/productInput'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               pricing:
+ *                 type: number
+ *               category_id:
+ *                 type: number
+ *               image:
+ *                 type: Fiel
  *     responses:
  *       201:
- *         description: Usuario creado exitosamente
+ *         description: Producto creado exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/product'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 pricing:
+ *                   type: number
+ *                 category_id:
+ *                   type: number
+ *                 image:
+ *                   type: string
  *       400:
  *         description: Datos inválidos
  */
-router.post('/',upload.single('image'), ProductController.create);
+router.post('/', upload.single('image'), ProductController.create);
 
 /**
  * @swagger
  * /api/products/{id}:
  *   put:
- *     summary: Actualizar un usuario existente
+ *     summary: Actualizar un producto existente
  *     tags: [products]
  *     parameters:
  *       - in: path
@@ -90,32 +134,54 @@ router.post('/',upload.single('image'), ProductController.create);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID del producto
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *          multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/productInput'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               pricing:
+ *                 type: number
+ *               category_id:
+ *                 type: number
+ *               image:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Producto actualizado exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/product'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 pricing:
+ *                   type: number
+ *                 category_id:
+ *                   type: number
+ *                 image:
+ *                   type: string
  *       404:
- *         description: Usuario no encontrado
+ *         description: Producto no encontrado
  *       400:
  *         description: Datos inválidos
  */
-router.put('/:id',upload.single('image'), ProductController.update);
+router.put('/:id', upload.single('image'), ProductController.update);
 
 /**
  * @swagger
  * /api/products/{id}:
  *   delete:
- *     summary: Eliminar un usuario
+ *     summary: Eliminar un producto
  *     tags: [products]
  *     parameters:
  *       - in: path
@@ -123,12 +189,12 @@ router.put('/:id',upload.single('image'), ProductController.update);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID del usuario
+ *         description: ID del producto
  *     responses:
  *       204:
- *         description: Usuario eliminado exitosamente
+ *         description: Producto eliminado exitosamente
  *       404:
- *         description: Usuario no encontrado
+ *         description: Producto no encontrado
  */
 router.delete('/:id', ProductController.delete);
 

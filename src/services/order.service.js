@@ -21,35 +21,42 @@ class OrderService {
   async createOrder(data) {
     const transaction = await sequelize.transaction(); // Inicia una transacción
     try {
-      // Generar código para el pedido
-      const cantidad = (await OrderRepository.findAll()).length;
-      const codeOrder = `shoes-${cantidad}`;
+      // Obtener la cantidad actual de órdenes para generar un código único
+      const orderCount = await OrderRepository.findAll(); // Cuenta las órdenes existentes en la tabla
+      const nextOrderNumber = orderCount.length + 1;
+      const codeOrder = `shoes-${String(nextOrderNumber).padStart(3, '0')}`; // Genera el código
+  
       const order = {
         code: codeOrder,
         total: data.total,
+        name: data.name,
+        phone: data.phone,
+        address: data.address,
+        paymentMethod: data.paymentMethod,
       };
-
+  
       // Crear el pedido dentro de la transacción
       const newOrder = await OrderRepository.create(order, { transaction });
-
+  
       // Relacionar productos con el pedido
-      data.products.forEach( async product => {
-        let product_order = {
+      for (const product of data.products) {
+        const productOrder = {
           product_id: product,
           order_id: newOrder.id,
-        }
-        await Order_productRepository.create( product_order, { transaction });
-
-      });
+        };
+        await Order_productRepository.create(productOrder, { transaction });
+      }
+  
       // Confirmar la transacción
       await transaction.commit();
-      return newOrder;
+      return this.getOrderById(newOrder.id);
     } catch (error) {
       // Revertir la transacción en caso de error
       await transaction.rollback();
       throw error;
     }
   }
+  
 
   async updateOrder(id, data) {
     await this.getOrderById(id); // Verifica que exista
