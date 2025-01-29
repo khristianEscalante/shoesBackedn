@@ -1,5 +1,6 @@
 const express = require("express");
 const OrderController = require("../controllers/order.controller");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
@@ -127,7 +128,7 @@ router.get("/", OrderController.getAll);
  *       404:
  *         description: Orden no encontrada
  */
-router.get("/:id", OrderController.getById);
+router.get("/:id", authMiddleware, OrderController.getById);
 
 /**
  * @swagger
@@ -225,7 +226,7 @@ router.post("/", OrderController.create);
  *       400:
  *         description: Datos inválidos
  */
-router.put("/:id", OrderController.update);
+router.put("/:id", authMiddleware, OrderController.update);
 
 /**
  * @swagger
@@ -246,6 +247,6 @@ router.put("/:id", OrderController.update);
  *       404:
  *         description: Orden no encontrada
  */
-router.delete("/:id", OrderController.delete);
+router.delete("/:id", authMiddleware, OrderController.delete);
 
 module.exports = router;

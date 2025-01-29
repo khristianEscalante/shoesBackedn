@@ -1,5 +1,6 @@
 const express = require('express');
 const ContactController = require('../controllers/contact.controller');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -36,7 +37,7 @@ const router = express.Router();
  *                     type: string
  *                     example: "Hola, estoy interesado en sus servicios."
  */
-router.get('/', ContactController.getAll);
+router.get('/', authMiddleware, ContactController.getAll);
 
 /**
  * @swagger
@@ -71,7 +72,7 @@ router.get('/', ContactController.getAll);
  *       404:
  *         description: Contacto no encontrado
  */
-router.get('/:id', ContactController.getById);
+router.get('/:id', authMiddleware, ContactController.getById);
 
 /**
  * @swagger
@@ -168,7 +169,7 @@ router.post('/', ContactController.create);
  *       400:
  *         description: Datos inválidos
  */
-router.put('/:id', ContactController.update);
+router.put('/:id', authMiddleware, ContactController.update);
 
 /**
  * @swagger
@@ -189,6 +190,6 @@ router.put('/:id', ContactController.update);
  *       404:
  *         description: Contacto no encontrado
  */
-router.delete('/:id', ContactController.delete);
+router.delete('/:id', authMiddleware, ContactController.delete);
 
 module.exports = router;

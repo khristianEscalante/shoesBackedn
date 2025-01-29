@@ -1,5 +1,6 @@
 const express = require("express");
 const CategoryController = require("../controllers/category.controller");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
@@ -117,7 +118,7 @@ router.get("/:id", CategoryController.getById);
  *       400:
  *         description: Datos inválidos
  */
-router.post("/", CategoryController.create);
+router.post("/", authMiddleware, CategoryController.create);
 
 /**
  * @swagger
@@ -172,7 +173,7 @@ router.post("/", CategoryController.create);
  *       400:
  *         description: Datos inválidos
  */
-router.put("/:id", CategoryController.update);
+router.put("/:id", authMiddleware, CategoryController.update);
 
 /**
  * @swagger
@@ -193,6 +194,6 @@ router.put("/:id", CategoryController.update);
  *       404:
  *         description: Categoría no encontrada
  */
-router.delete("/:id", CategoryController.delete);
+router.delete("/:id", authMiddleware, CategoryController.delete);
 
 module.exports = router;

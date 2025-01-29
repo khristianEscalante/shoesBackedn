@@ -1,6 +1,7 @@
 const express = require('express');
 const ProductController = require('../controllers/product.controller');
 const upload = require('../middlewares/upload');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -120,7 +121,7 @@ router.get('/:id', ProductController.getById);
  *       400:
  *         description: Datos inválidos
  */
-router.post('/', upload.single('image'), ProductController.create);
+router.post('/', upload.single('image'), authMiddleware, ProductController.create);
 
 /**
  * @swagger
@@ -175,7 +176,7 @@ router.post('/', upload.single('image'), ProductController.create);
  *       400:
  *         description: Datos inválidos
  */
-router.put('/:id', upload.single('image'), ProductController.update);
+router.put('/:id', upload.single('image'), authMiddleware, ProductController.update);
 
 /**
  * @swagger
@@ -196,6 +197,6 @@ router.put('/:id', upload.single('image'), ProductController.update);
  *       404:
  *         description: Producto no encontrado
  */
-router.delete('/:id', ProductController.delete);
+router.delete('/:id', authMiddleware, ProductController.delete);
 
 module.exports = router;
